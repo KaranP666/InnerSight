@@ -1,13 +1,15 @@
 import { Sidebar } from "@/components/sidebar";
 import { UserNav } from "@/components/user-nav";
 import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth.actions";
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getUser();
+  const user = await getCurrentUser();
+  if(!user) return null;
   
   return (
     <div className="flex min-h-screen w-full">

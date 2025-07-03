@@ -1,14 +1,16 @@
-import { getUser } from "@/lib/auth";
 import { getGamificationStats, getMoodLogs } from "@/lib/data";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { moodIcons, moodOptions, type MoodLog } from "@/types";
-import { addMoodLog } from "@/lib/actions";
 import MoodTracker from "@/components/mood-tracker";
 import JournalPrompt from "@/components/journal-prompt";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth.actions";
 
-async function GamificationStats() {
-  const stats = await getGamificationStats("1");
+export async function GamificationStatsCard() {
+  const user = await getCurrentUser();
+  if (!user) redirect('/login');
+
+  const stats = await getGamificationStats(user.id);
+
   return (
     <Card>
       <CardHeader>
@@ -34,9 +36,10 @@ async function GamificationStats() {
 }
 
 export default async function DashboardPage() {
-  const user = await getUser();
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
   
-  const moodLogs = await getMoodLogs("1");
+  const moodLogs = await getMoodLogs(user.id);
 
   return (
     <div className="grid gap-8">
@@ -63,7 +66,7 @@ export default async function DashboardPage() {
         <JournalPrompt moodLogs={moodLogs} />
       </div>
 
-      <GamificationStats />
+      <GamificationStatsCard />
     </div>
   );
 }

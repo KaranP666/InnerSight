@@ -43,6 +43,7 @@ export type SelfCareActivity = {
 };
 
 export type GamificationStats = {
+  userId: string,
   points: number;
   moodStreak: number;
   journalStreak: number;

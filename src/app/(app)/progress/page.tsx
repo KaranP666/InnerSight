@@ -1,9 +1,13 @@
 import { getMoodLogs } from "@/lib/data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MoodChart } from "@/components/mood-chart";
+import { getCurrentUser } from "@/lib/auth.actions";
+import { redirect } from "next/navigation";
 
 export default async function ProgressPage() {
-    const moodLogs = await getMoodLogs("1");
+      const user = await getCurrentUser();
+      if (!user) redirect("/login");
+    const moodLogs = await getMoodLogs(user.id);
 
     return (
         <div className="grid gap-8">

@@ -83,7 +83,9 @@ export default function NewJournalEntry({ moodLogs }: NewJournalEntryProps) {
                 <Loader2 className="h-4 w-4 animate-spin"/> Generating a prompt for you...
             </span>
           ) : (
-            `Today's prompt: "${prompt}"`
+            <>
+             <span>Today's prompt:</span> <span className="font-semibold">{prompt}</span>
+            </>
           )}
         </CardDescription>
       </CardHeader>

@@ -2,6 +2,8 @@ import { getJournalEntries, getMoodLogs } from "@/lib/data";
 import { addJournalEntry } from "@/lib/actions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import NewJournalEntry from "@/components/journal/new-journal-entry";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth.actions";
 
 function JournalEntryCard({ entry }: { entry: Awaited<ReturnType<typeof getJournalEntries>>[0] }) {
   return (
@@ -25,8 +27,12 @@ function JournalEntryCard({ entry }: { entry: Awaited<ReturnType<typeof getJourn
 }
 
 export default async function JournalPage() {
-  const entries = await getJournalEntries("1");
-  const moodLogs = await getMoodLogs("1");
+   const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
+  const entries = await getJournalEntries(user.id);
+  // const entries = await getJournalEntries("1");
+  const moodLogs = await getMoodLogs(user.id);
 
   return (
     <div className="grid gap-8">
