@@ -12,8 +12,8 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/journal", label: "Journal", icon: Book },
   { href: "/self-care", label: "Self-Care", icon: Heart },
-  { href: "/progress", label: "Progress", icon: BarChart2 },
   { href: "/chat", label: "AI Counselor", icon: Speech },
+  { href: "/progress", label: "Progress", icon: BarChart2 },
 ];
 
 export function Sidebar() {
