@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Home, Book, Heart, BarChart2, Menu } from "lucide-react";
+import { Home, Book, Heart, BarChart2, Menu, Speech  } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navItems = [
@@ -13,6 +13,7 @@ const navItems = [
   { href: "/journal", label: "Journal", icon: Book },
   { href: "/self-care", label: "Self-Care", icon: Heart },
   { href: "/progress", label: "Progress", icon: BarChart2 },
+  { href: "/chat", label: "AI Counselor", icon: Speech },
 ];
 
 export function Sidebar() {

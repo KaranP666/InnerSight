@@ -4,6 +4,7 @@ import { getCurrentUser } from './auth.actions';
 import { revalidatePath } from 'next/cache';
 import { format } from "date-fns";
 
+
 export async function getMoodLogs(userId: string): Promise<MoodLog[]> {
   return prisma?.moodLog.findMany({
     where: { userId },

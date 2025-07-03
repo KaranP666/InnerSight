@@ -12,7 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { User } from "@/types";
-import { User as UserIcon } from "lucide-react";
+import { User as UserIcon, LogOut as LogOutIcon } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 type UserNavProps = {
   user: User;
@@ -43,6 +44,10 @@ export function UserNav({ user }: UserNavProps) {
           <DropdownMenuItem>
             <UserIcon className="mr-2 h-4 w-4" />
             <span>Profile</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })}>
+            <LogOutIcon className="mr-2 h-4 w-4" />
+            <span>Logout</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

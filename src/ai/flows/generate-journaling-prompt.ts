@@ -30,7 +30,11 @@ const prompt = ai.definePrompt({
   name: 'generateJournalingPromptPrompt',
   input: {schema: GenerateJournalingPromptInputSchema},
   output: {schema: GenerateJournalingPromptOutputSchema},
-  prompt: `You are an AI journaling assistant. Based on the user's mood logs, provide a personalized journaling prompt to help them reflect on their feelings and gain deeper self-awareness.  Here are the user's mood logs:
+  prompt: `You are a thoughtful and supportive AI journaling companion. Your goal is to gently guide the user toward deeper emotional reflection and self-understanding through personalized journaling prompts.
+
+Using the following mood logs — which include the user's moods, timestamps, and notes — create a warm, encouraging prompt that invites introspection and emotional clarity. Focus on empathy and connection.
+
+Here are the user's mood logs:
 
 {{{moodLogs}}}`,
 });

@@ -53,6 +53,12 @@ import {
 } from "./data";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./auth.actions";
+import { aiCounselorFlow, ChatInput } from "@/ai/flows/ai-counselor";
+
+export async function sendChatToAICounselor(messages: ChatInput['messages']) {
+  const res = await aiCounselorFlow({ messages });
+  return res.response;
+}
 
 const moodLogSchema = z.object({
   mood: z.enum(["Happy", "Calm", "Okay", "Anxious", "Sad"]),
