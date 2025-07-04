@@ -1,4 +1,4 @@
-// This file mocks a database connection.
+
 import type { MoodLog, JournalEntry, SelfCareActivity, GamificationStats, Mood } from '@/types';
 import { getCurrentUser } from './auth.actions';
 import { revalidatePath } from 'next/cache';
@@ -86,16 +86,6 @@ export async function dbToggleSelfCareActivity(userId: string, activityId: strin
 }
 
 
-// export async function getGamificationStats(userId: string): Promise<GamificationStats> {
-//   const points = await prisma.moodLog.count({ where: { userId } }) * 5;
-
-//   return {
-//     userId,
-//     points,
-//     moodStreak: 3, // replace with logic if needed
-//     journalStreak: 2, // replace with logic if needed
-//   };
-// }
 // Helper: Calculate streak based on consecutive daily entries
 function getStreak(dates: Date[]): number {
   const seen = new Set(dates.map((d) => format(d, "yyyy-MM-dd")));
