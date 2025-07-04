@@ -1,8 +1,7 @@
 "use client";
 
 import { sendChatToAICounselor } from "@/lib/actions";
-import { Mic } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import VoiceInput from "./voice-input";
 
 export function ChatUI() {
@@ -11,24 +10,12 @@ export function ChatUI() {
   >([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  const handleVoiceInput = () => {
-    const recognition = new (window as any).webkitSpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setInput(transcript);
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error("Speech recognition error:", event.error);
-    };
-
-    recognition.start();
-  };
+  // Auto scroll to bottom on new message
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleTranscript = (transcript: string) => {
     setInput((prev) => prev.trim() + " " + transcript.trim());
@@ -49,35 +36,66 @@ export function ChatUI() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-muted p-4 rounded-md h-[400px] overflow-y-auto space-y-2">
+      <div className="bg-muted p-4 rounded-md h-[400px] overflow-y-auto space-y-2 text-sm">
         {messages.map((msg, idx) => (
           <div
             key={idx}
-            className={`text-sm ${
+            className={`break-words ${
               msg.role === "user"
-                ? "text-right"
+                ? "text-right text-black"
                 : "text-left text-muted-foreground"
             }`}
           >
-            <span>{msg.text}</span>
+            <span className="whitespace-pre-line">{msg.text}</span>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="flex gap-2">
+
+      {/* <div className="flex flex-col sm:flex-row gap-2 w-full">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Share what’s on your mind..."
-          className="flex-1 border rounded-md p-2"
+          className="w-full border rounded-md p-2 text-sm"
         />
-        <VoiceInput onTranscript={handleTranscript} />
-        <button
-          onClick={handleSend}
-          disabled={loading}
-          className="bg-primary text-white px-4 py-2 rounded-md"
-        >
-          {loading ? "..." : "Send"}
-        </button>
+        <div className="flex gap-2 mt-2 sm:mt-0">
+          <VoiceInput onTranscript={handleTranscript} />
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="bg-primary text-white px-4 py-2 rounded-md text-sm"
+          >
+            {loading ? "..." : "Send"}
+          </button>
+        </div>
+      </div> */}
+      <div className="flex flex-col sm:flex-row gap-2 w-full">
+        <div className="flex-1">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Share what’s on your mind..."
+            rows={2}
+            className="w-full border rounded-md p-2 resize-none overflow-hidden text-sm focus:outline-none"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+          />
+        </div>
+        <div className="flex gap-2 mt-2 sm:mt-0 items-center">
+          <VoiceInput onTranscript={handleTranscript} />
+          <button
+            onClick={handleSend}
+            disabled={loading}
+            className="bg-primary text-white px-4 py-2 rounded-md text-sm"
+          >
+            {loading ? "..." : "Send"}
+          </button>
+        </div>
       </div>
     </div>
   );
