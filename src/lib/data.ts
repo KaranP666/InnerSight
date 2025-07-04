@@ -3,6 +3,7 @@ import type { MoodLog, JournalEntry, SelfCareActivity, GamificationStats, Mood }
 import { getCurrentUser } from './auth.actions';
 import { revalidatePath } from 'next/cache';
 import { format } from "date-fns";
+import { prisma } from './prisma';
 
 
 export async function getMoodLogs(userId: string): Promise<MoodLog[]> {
